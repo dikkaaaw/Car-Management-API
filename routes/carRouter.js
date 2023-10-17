@@ -11,5 +11,6 @@ router
   .route("/:id")
   .get(carController.findCarById)
   .delete(carController.deleteCar)
+  .patch(carController.updateCar)
 
 module.exports = router
