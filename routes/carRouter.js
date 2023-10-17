@@ -7,4 +7,7 @@ router
   .post(carController.createCar)
   .get(carController.findAllCars)
 
+router.route("/:id").get(carController.findCarById)
+// .delete(carController.deleteCar)
+
 module.exports = router

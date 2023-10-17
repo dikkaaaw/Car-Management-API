@@ -19,6 +19,6 @@ app.use(
 )
 app.use(flash())
 
-app.use("/", carRouter)
+app.use("/cars", carRouter)
 
 module.exports = app
