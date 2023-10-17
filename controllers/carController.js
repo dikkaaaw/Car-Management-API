@@ -2,12 +2,13 @@ const { Car } = require("../models/index")
 const ApiError = require("../utils/apiError")
 
 const createCar = async (req, res, next) => {
-  const { name, price, category } = req.body
+  const { name, price, category, isAvailable } = req.body
   try {
     const newCar = await Car.create({
       name,
       price,
       category,
+      isAvailable,
     })
 
     res.status(200).json({
@@ -45,10 +46,6 @@ const findCarById = async (req, res, next) => {
       },
     })
 
-    if (!car) {
-      next(new ApiError("Car not found!", 404))
-    }
-
     res.status(200).json({
       status: "Success",
       message: "Data found!",
@@ -69,10 +66,6 @@ const deleteCar = async (req, res, next) => {
       },
     })
 
-    if (!deleteCar) {
-      next(new ApiError("Car not found!", 404))
-    }
-
     await Car.destroy({
       where: {
         id: req.params.id,
@@ -89,30 +82,28 @@ const deleteCar = async (req, res, next) => {
 }
 
 const updateCar = async (req, res, next) => {
-  const { name, price, category } = req.body
+  const { name, price, category, isAvailable } = req.body
   try {
-    const updateCar = Car.update(
+    const [, [updatedCar]] = await Car.update(
       {
         name,
         price,
         category,
+        isAvailable,
       },
       {
         where: {
           id: req.params.id,
         },
+        returning: true,
       }
     )
-
-    if (!updateCar[0] === 0) {
-      next(new ApiError("Car not found!", 404))
-    }
 
     res.status(200).json({
       status: "Success",
       message: "Car data updated successfully!",
       data: {
-        updateCar,
+        updatedCar,
       },
     })
   } catch (err) {

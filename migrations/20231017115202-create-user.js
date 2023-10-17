@@ -1,11 +1,8 @@
 "use strict"
-
-const { sequelize } = require("../models")
-
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Cars", {
+    await queryInterface.createTable("Users", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -15,15 +12,22 @@ module.exports = {
       name: {
         type: Sequelize.STRING,
       },
-      price: {
-        type: Sequelize.FLOAT,
+      age: {
+        type: Sequelize.INTEGER,
       },
-      category: {
-        type: Sequelize.ENUM(["Small", "Medium", "Large"]),
+      role: {
+        type: Sequelize.ENUM([
+          "Superadmin",
+          "Admin",
+          "Member",
+        ]),
+        defaultValue: "Admin",
       },
-      isAvailable: {
-        type: Sequelize.BOOLEAN,
-        defaultValue: true,
+      address: {
+        type: Sequelize.STRING,
+      },
+      carId: {
+        type: Sequelize.INTEGER,
       },
       createdAt: {
         allowNull: false,
@@ -36,6 +40,6 @@ module.exports = {
     })
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Cars")
+    await queryInterface.dropTable("Users")
   },
 }
