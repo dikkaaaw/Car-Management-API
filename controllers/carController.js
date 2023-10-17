@@ -10,7 +10,7 @@ const createCar = async (req, res, next) => {
       category,
     })
 
-    res.status(400).json({
+    res.status(200).json({
       status: "Success",
       message: "Data berhasil ditambahkan!",
       data: {
@@ -26,7 +26,7 @@ const findAllCars = async (req, res, next) => {
   try {
     const car = await Car.findAll()
 
-    res.status(400).json({
+    res.status(200).json({
       status: "Success",
       data: {
         car,
@@ -52,7 +52,7 @@ const findCarById = async (req, res, next) => {
       )
     }
 
-    res.status(400).json({
+    res.status(200).json({
       status: "Success",
       message: "Data found!",
       data: {
@@ -64,8 +64,33 @@ const findCarById = async (req, res, next) => {
   }
 }
 
+const deleteCar = async (req, res, next) => {
+  const id = req.params.id
+  try {
+    const deleteCar = Car.destroy({
+      where: {
+        id: req.params.id,
+      },
+    })
+
+    if (!deleteCar) {
+      next(
+        new ApiError(`Car with id ${id} not found!`, 404)
+      )
+    }
+
+    res.status(200).json({
+      status: "Success",
+      message: "Car data has been deleted!",
+    })
+  } catch (err) {
+    next(new ApiError(err.message, 500))
+  }
+}
+
 module.exports = {
   createCar,
   findAllCars,
   findCarById,
+  deleteCar,
 }
