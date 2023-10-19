@@ -56,7 +56,7 @@ const register = async (res, req, next) => {
       userId: newUser.id,
     })
 
-    res.status(200).json({
+    res.status(201).json({
       status: "Success",
       data: {
         ...newUser,
@@ -71,10 +71,49 @@ const register = async (res, req, next) => {
 }
 
 const login = async (req, res, next) => {
-  const { name, email, password, confirmPassword } =
-    req.body
+  try {
+    const { email, password } = req.body
+
+    const user = await User.findOne({
+      where: {
+        email,
+      },
+      include: ["User"],
+    })
+
+    if (
+      user &&
+      bcrypt.compareSync(password, user.password)
+    ) {
+      const token = jwt.sign(
+        {
+          id: user.userId,
+          username: user.User.name,
+          role: user.User.role,
+          email: user.email,
+        },
+        process.env.JWT_SECRET
+      )
+
+      res.status(200).json({
+        status: "Success",
+        message: "Login success!",
+        data: token,
+      })
+    } else {
+      next(
+        new ApiError(
+          "Wrong password or user doesn't exist!",
+          400
+        )
+      )
+    }
+  } catch (err) {
+    next(new ApiError(err.message, 500))
+  }
 }
 
 module.exports = {
   register,
+  login,
 }
