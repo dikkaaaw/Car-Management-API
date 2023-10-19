@@ -15,18 +15,20 @@ module.exports = {
       age: {
         type: Sequelize.INTEGER,
       },
+      address: {
+        type: Sequelize.STRING,
+      },
+      confirmPassword: {
+        type: Sequelize.STRING,
+      },
       role: {
         type: Sequelize.ENUM([
           "Superadmin",
           "Admin",
           "Member",
         ]),
-        defaultValue: "Admin",
       },
-      address: {
-        type: Sequelize.STRING,
-      },
-      carId: {
+      dealerId: {
         type: Sequelize.INTEGER,
       },
       createdAt: {

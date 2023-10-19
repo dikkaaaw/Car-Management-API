@@ -1,5 +1,6 @@
-const { Car } = require("../models/index")
+const { Car } = require("../models")
 const ApiError = require("../utils/apiError")
+const { Op } = require("sequelize")
 
 const createCar = async (req, res, next) => {
   const { name, price, category, isAvailable } = req.body
@@ -25,12 +26,26 @@ const createCar = async (req, res, next) => {
 
 const findAllCars = async (req, res, next) => {
   try {
-    const car = await Car.findAll()
+    const { isAvailable } = req.query
+    const condition = {}
+
+    if (isAvailable) {
+      if (
+        isAvailable === "Available" ||
+        isAvailable === "Not Available"
+      ) {
+        condition.isAvailable = isAvailable
+      }
+    }
+
+    const cars = await Car.findAll({
+      where: condition,
+    })
 
     res.status(200).json({
       status: "Success",
       data: {
-        car,
+        cars,
       },
     })
   } catch (err) {

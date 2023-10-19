@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Cars", {
+    await queryInterface.createTable("Dealers", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -11,24 +11,6 @@ module.exports = {
       },
       name: {
         type: Sequelize.STRING,
-      },
-      price: {
-        type: Sequelize.FLOAT,
-      },
-      category: {
-        type: Sequelize.ENUM(["Small", "Medium", "Large"]),
-      },
-      isAvailable: {
-        type: Sequelize.ENUM([
-          "Available",
-          "Not Available",
-        ]),
-      },
-      userId: {
-        type: Sequelize.INTEGER,
-      },
-      dealerId: {
-        type: Sequelize.INTEGER,
       },
       createdAt: {
         allowNull: false,
@@ -41,6 +23,6 @@ module.exports = {
     })
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Cars")
+    await queryInterface.dropTable("Dealers")
   },
 }

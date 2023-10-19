@@ -1,5 +1,6 @@
 "use strict"
 const { Model } = require("sequelize")
+const { Sequelize } = require(".")
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -9,22 +10,42 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.hasOne(models.Auth, {
+        foreignKey: {
+          name: "userId",
+          allowNull: false,
+        },
+      })
+
+      User.belongsTo(models.Dealer, {
+        foreignKey: {
+          name: "dealerId",
+          allowNull: false,
+        },
+      })
+
+      User.hasMany(models.Car, {
+        foreignKey: {
+          name: "userId",
+          allowNull: false,
+        },
+      })
     }
   }
   User.init(
     {
       name: DataTypes.STRING,
       age: DataTypes.INTEGER,
+      address: DataTypes.STRING,
       role: {
         type: DataTypes.ENUM([
           "Superadmin",
           "Admin",
           "Member",
         ]),
-        defaultValue: "Admin",
+        defaultValue: "Member",
       },
-      address: DataTypes.STRING,
-      carId: DataTypes.INTEGER,
+      dealerId: DataTypes.INTEGER,
     },
     {
       sequelize,
