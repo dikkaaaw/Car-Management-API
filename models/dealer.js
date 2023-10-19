@@ -12,14 +12,12 @@ module.exports = (sequelize, DataTypes) => {
       Dealer.hasMany(models.Car, {
         foreignKey: {
           name: "dealerId",
-          allowNull: false,
         },
       })
 
       Dealer.hasMany(models.User, {
         foreignKey: {
           name: "dealerId",
-          allowNull: false,
         },
       })
     }

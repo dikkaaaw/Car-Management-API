@@ -12,14 +12,12 @@ module.exports = (sequelize, DataTypes) => {
       Car.belongsTo(models.User, {
         foreignKey: {
           name: "userId",
-          allowNull: false,
         },
       })
 
       Car.belongsTo(models.Dealer, {
         foreignKey: {
           name: "dealerId",
-          allowNull: false,
         },
       })
     }
@@ -33,10 +31,7 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: "Medium",
       },
       isAvailable: {
-        type: DataTypes.ENUM([
-          "Available",
-          "Not Available",
-        ]),
+        type: DataTypes.ENUM(["Available", "Not Available"]),
         defaultValue: "Available",
       },
       userId: DataTypes.INTEGER,

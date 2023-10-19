@@ -1,6 +1,5 @@
 "use strict"
 const { Model } = require("sequelize")
-const { Sequelize } = require(".")
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -13,21 +12,18 @@ module.exports = (sequelize, DataTypes) => {
       User.hasOne(models.Auth, {
         foreignKey: {
           name: "userId",
-          allowNull: false,
         },
       })
 
       User.belongsTo(models.Dealer, {
         foreignKey: {
           name: "dealerId",
-          allowNull: false,
         },
       })
 
       User.hasMany(models.Car, {
         foreignKey: {
           name: "userId",
-          allowNull: false,
         },
       })
     }
@@ -38,11 +34,7 @@ module.exports = (sequelize, DataTypes) => {
       age: DataTypes.INTEGER,
       address: DataTypes.STRING,
       role: {
-        type: DataTypes.ENUM([
-          "Superadmin",
-          "Admin",
-          "Member",
-        ]),
+        type: DataTypes.ENUM(["Superadmin", "Admin", "Member"]),
         defaultValue: "Member",
       },
       dealerId: DataTypes.INTEGER,

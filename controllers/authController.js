@@ -3,10 +3,17 @@ const jwt = require("jsonwebtoken")
 const { Auth, User } = require("../models")
 const ApiError = require("../utils/apiError")
 
-const register = async (res, req, next) => {
+const register = async (req, res, next) => {
   try {
-    const { name, email, password, confirmPassword } =
-      req.body
+    const {
+      name,
+      email,
+      password,
+      confirmPassword,
+      age,
+      address,
+      dealerId,
+    } = req.body
 
     const user = await Auth.findOne({
       where: {
@@ -33,10 +40,7 @@ const register = async (res, req, next) => {
     }
 
     const saltRounds = 10
-    const hashedPassword = bcrypt.hashSync(
-      password,
-      saltRounds
-    )
+    const hashedPassword = bcrypt.hashSync(password, saltRounds)
     const hashedConfirmPassword = bcrypt.hashSync(
       confirmPassword,
       saltRounds
@@ -46,10 +50,10 @@ const register = async (res, req, next) => {
       name,
       age,
       address,
-      dealerId: req.user.dealerId,
+      dealerId,
     })
 
-    const newAuth = await Auth.create({
+    await Auth.create({
       email,
       password: hashedPassword,
       confirmPassword: hashedConfirmPassword,
@@ -74,17 +78,18 @@ const login = async (req, res, next) => {
   try {
     const { email, password } = req.body
 
-    const user = await User.findOne({
+    const user = await Auth.findOne({
       where: {
         email,
       },
       include: ["User"],
     })
 
-    if (
-      user &&
-      bcrypt.compareSync(password, user.password)
-    ) {
+    if (!user) {
+      return next(new ApiError("User not found!", 404))
+    }
+
+    if (user && bcrypt.compareSync(password, user.password)) {
       const token = jwt.sign(
         {
           id: user.userId,
@@ -101,12 +106,7 @@ const login = async (req, res, next) => {
         data: token,
       })
     } else {
-      next(
-        new ApiError(
-          "Wrong password or user doesn't exist!",
-          400
-        )
-      )
+      next(new ApiError("Wrong password or user doesn't exist!", 400))
     }
   } catch (err) {
     next(new ApiError(err.message, 500))

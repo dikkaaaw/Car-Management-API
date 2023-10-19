@@ -27,6 +27,7 @@ module.exports = {
           "Admin",
           "Member",
         ]),
+        defaultValue: "Member",
       },
       dealerId: {
         type: Sequelize.INTEGER,
