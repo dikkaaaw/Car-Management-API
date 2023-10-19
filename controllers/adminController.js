@@ -4,9 +4,9 @@ const ApiError = require("../utils/apiError")
 
 const addAdmin = async (req, res, next) => {
   try {
-    const { name, email, password, role, age, address } = req.body
+    const { name, email, password, role, age, address, dealerId } =
+      req.body
 
-    const dealerId = req.user.dealerId
     const existingUser = await Auth.findOne({
       where: {
         email,
@@ -33,12 +33,13 @@ const addAdmin = async (req, res, next) => {
       password: hashedPassword,
       role,
       userId: newAdmin.id,
+      adminId: newAdmin.id,
     })
 
     res.status(201).json({
       status: "Success",
       data: {
-        ...newAdmin.toJSON(),
+        ...newAdmin,
         email,
         password: hashedPassword,
         role,

@@ -18,7 +18,7 @@ module.exports = {
       address: {
         type: Sequelize.STRING,
       },
-      confirmPassword: {
+      password: {
         type: Sequelize.STRING,
       },
       role: {

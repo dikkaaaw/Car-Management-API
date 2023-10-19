@@ -14,6 +14,12 @@ module.exports = (sequelize, DataTypes) => {
           name: "dealerId",
         },
       })
+
+      Admin.hasOne(models.Auth, {
+        foreignKey: {
+          name: "adminId",
+        },
+      })
     }
   }
   Admin.init(

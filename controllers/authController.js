@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
-const { Auth, User } = require("../models")
+const { Auth, User, Admin } = require("../models")
 const ApiError = require("../utils/apiError")
 
 const register = async (req, res, next) => {

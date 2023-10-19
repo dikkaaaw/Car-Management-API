@@ -14,6 +14,12 @@ module.exports = (sequelize, DataTypes) => {
           name: "userId",
         },
       })
+
+      Auth.belongsTo(models.Admin, {
+        foreignKey: {
+          name: "adminId",
+        },
+      })
     }
   }
   Auth.init(
@@ -22,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       password: DataTypes.STRING,
       confirmPassword: DataTypes.STRING,
       userId: DataTypes.INTEGER,
+      adminId: DataTypes.INTEGER,
     },
     {
       sequelize,
