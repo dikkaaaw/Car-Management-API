@@ -5,6 +5,6 @@ const Authenticate = require("../middlewares/authenticate")
 
 router.post("/register", Auth.register)
 router.post("/login", Auth.login)
-router.get("/me", Authenticate, Auth.checkCurrentUser)
+router.get("/verify", Authenticate, Auth.checkCurrentUser)
 
 module.exports = router

@@ -20,6 +20,12 @@ module.exports = (sequelize, DataTypes) => {
           name: "dealerId",
         },
       })
+
+      Dealer.hasMany(models.Admin, {
+        foreignKey: {
+          name: "dealerId",
+        },
+      })
     }
   }
   Dealer.init(
