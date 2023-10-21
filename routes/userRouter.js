@@ -1,13 +1,36 @@
 const router = require("express").Router()
 
 const userController = require("../controllers/userController")
+const authenticate = require("../middlewares/authenticate")
+const checkRole = require("../middlewares/checkRole")
 
-router.route("/").get(userController.findUsers)
+router.get("/", authenticate, userController.findUsers)
 
-router
-  .route("/:id")
-  .get(userController.findUserById)
-  .delete(userController.deleteUser)
-  .patch(userController.updateUser)
+router.get("/:id", authenticate, userController.findUserById)
+router.patch(
+  "/admin/:id",
+  authenticate,
+  checkRole("superadmin"),
+  userController.updateUser
+)
+router.delete(
+  "/admin/:id",
+  authenticate,
+  checkRole("superadmin"),
+  userController.deleteUser
+)
+
+router.patch(
+  "/member/:id",
+  authenticate,
+  checkRole("superadmin"),
+  userController.updateUser
+)
+router.delete(
+  "/member/:id",
+  authenticate,
+  checkRole("superadmin"),
+  userController.deleteUser
+)
 
 module.exports = router
