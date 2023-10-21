@@ -11,13 +11,22 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Car.belongsTo(models.User, {
         foreignKey: {
-          name: "userId",
+          name: "createdBy",
+          allowNull: true,
         },
       })
 
-      Car.belongsTo(models.Dealer, {
+      Car.belongsTo(models.User, {
         foreignKey: {
-          name: "dealerId",
+          name: "updatedBy",
+          allowNull: true,
+        },
+      })
+
+      Car.belongsTo(models.User, {
+        foreignKey: {
+          name: "deletedBy",
+          allowNull: true,
         },
       })
     }
@@ -34,11 +43,13 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.ENUM(["Available", "Not Available"]),
         defaultValue: "Available",
       },
-      userId: DataTypes.INTEGER,
-      dealerId: DataTypes.INTEGER,
+      createdBy: DataTypes.INTEGER,
+      updatedBy: DataTypes.INTEGER,
+      deletedBy: DataTypes.INTEGER,
     },
     {
       sequelize,
+      paranoid: true,
       modelName: "Car",
     }
   )

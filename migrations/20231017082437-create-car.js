@@ -19,15 +19,15 @@ module.exports = {
         type: Sequelize.ENUM(["Small", "Medium", "Large"]),
       },
       isAvailable: {
-        type: Sequelize.ENUM([
-          "Available",
-          "Not Available",
-        ]),
+        type: Sequelize.ENUM(["Available", "Not Available"]),
       },
-      userId: {
+      createdBy: {
         type: Sequelize.INTEGER,
       },
-      dealerId: {
+      updatedBy: {
+        type: Sequelize.INTEGER,
+      },
+      deletedBy: {
         type: Sequelize.INTEGER,
       },
       createdAt: {
@@ -36,6 +36,10 @@ module.exports = {
       },
       updatedAt: {
         allowNull: false,
+        type: Sequelize.DATE,
+      },
+      deletedAt: {
+        allowNull: true,
         type: Sequelize.DATE,
       },
     })
