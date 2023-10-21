@@ -18,15 +18,8 @@ module.exports = {
       address: {
         type: Sequelize.STRING,
       },
-      password: {
-        type: Sequelize.STRING,
-      },
       role: {
         type: Sequelize.ENUM(["superadmin", "admin", "member"]),
-        defaultValue: "member",
-      },
-      dealerId: {
-        type: Sequelize.INTEGER,
       },
       createdAt: {
         allowNull: false,
