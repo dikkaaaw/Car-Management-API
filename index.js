@@ -1,6 +1,7 @@
 const express = require("express")
 const morgan = require("morgan")
 const bodyParser = require("body-parser")
+const cors = require("cors")
 
 const ApiError = require("./utils/apiError")
 const errorHandler = require("./controllers/errorController")
@@ -12,6 +13,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
 app.use(morgan("dev"))
+app.use(cors())
 app.use(router)
 app.use(express.static(`${__dirname}/public`))
 
