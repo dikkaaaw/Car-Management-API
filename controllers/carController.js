@@ -1,15 +1,32 @@
 const { Car } = require("../models")
+const imagekit = require("imagekit")
 const ApiError = require("../utils/apiError")
-const { Op } = require("sequelize")
 
 const createCar = async (req, res, next) => {
-  const { name, price, category, isAvailable } = req.body
   try {
+    const { name, price, category, isAvailable } = req.body
+
+    const file = req.file
+    let img
+    if (file) {
+      const split = file.originalname.split(".")
+      const extension = split[split.length - 1]
+
+      const uploadedImage = await imagekit.upload({
+        file: file.buffer,
+        fileName: `IMG-${Date.now()}.${extension}`,
+      })
+      img = uploadedImage.url
+    }
+
     const newCar = await Car.create({
       name,
       price,
       category,
       isAvailable,
+      createdBy: req.user.id,
+      updatedBy: req.user.id,
+      imageUrl: img,
     })
 
     res.status(200).json({
@@ -40,6 +57,8 @@ const findAllCars = async (req, res, next) => {
 
     const cars = await Car.findAll({
       where: condition,
+      paranoid: false,
+      include: ["Created by", "Update by", "Delete by"],
     })
 
     res.status(200).json({
@@ -59,7 +78,12 @@ const findCarById = async (req, res, next) => {
       where: {
         id: req.params.id,
       },
+      include: ["User"],
     })
+
+    if (car === null) {
+      return next(new ApiError("Car not found!", 404))
+    }
 
     res.status(200).json({
       status: "Success",
@@ -81,6 +105,21 @@ const deleteCar = async (req, res, next) => {
       },
     })
 
+    if (!deleteCar) {
+      return next(new ApiError("Car not found!", 404))
+    }
+
+    await Car.update(
+      {
+        deletedBy: req.user.id,
+      },
+      {
+        where: {
+          id: req.params.id,
+        },
+      }
+    )
+
     await Car.destroy({
       where: {
         id: req.params.id,
@@ -97,29 +136,41 @@ const deleteCar = async (req, res, next) => {
 }
 
 const updateCar = async (req, res, next) => {
-  const { name, price, category, isAvailable } = req.body
   try {
-    const [, [updatedCar]] = await Car.update(
+    const { name, price, category, isAvailable } = req.body
+
+    const file = req.file
+    let img
+    if (file) {
+      const split = file.originalname.split(".")
+      const extension = split[split.length - 1]
+
+      const uploadedImage = await imagekit.upload({
+        file: file.buffer,
+        fileName: `IMG-${Date.now()}.${extension}`,
+      })
+      img = uploadedImage.url
+    }
+
+    await Car.update(
       {
         name,
         price,
         category,
         isAvailable,
+        updatedBy: req.user.id,
+        imageUrl: img,
       },
       {
         where: {
           id: req.params.id,
         },
-        returning: true,
       }
     )
 
     res.status(200).json({
       status: "Success",
       message: "Car data updated successfully!",
-      data: {
-        updatedCar,
-      },
     })
   } catch (err) {
     next(new ApiError(err.message, 400))
