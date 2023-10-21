@@ -1,19 +1,12 @@
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
-const { Auth, User, Admin } = require("../models")
+const { Auth, User } = require("../models")
 const ApiError = require("../utils/apiError")
 
 const register = async (req, res, next) => {
   try {
-    const {
-      name,
-      email,
-      password,
-      confirmPassword,
-      age,
-      address,
-      dealerId,
-    } = req.body
+    const { name, email, password, confirmPassword, age, address } =
+      req.body
 
     const user = await Auth.findOne({
       where: {
@@ -46,12 +39,23 @@ const register = async (req, res, next) => {
       saltRounds
     )
 
-    const newUser = await User.create({
-      name,
-      age,
-      address,
-      dealerId,
-    })
+    if (req.user) {
+      if (req.user.type == "superadmin") {
+        newUser = await User.create({
+          name,
+          age,
+          address,
+          role: "admin",
+        })
+      } else {
+        newUser = await User.create({
+          name,
+          age,
+          address,
+          dealerId,
+        })
+      }
+    }
 
     await Auth.create({
       email,
@@ -106,7 +110,9 @@ const login = async (req, res, next) => {
         data: token,
       })
     } else {
-      next(new ApiError("Wrong password or user doesn't exist!", 400))
+      return next(
+        new ApiError("Wrong password or user doesn't exist!", 400)
+      )
     }
   } catch (err) {
     next(new ApiError(err.message, 500))

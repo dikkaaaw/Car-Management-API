@@ -14,12 +14,6 @@ module.exports = (sequelize, DataTypes) => {
           name: "userId",
         },
       })
-
-      Auth.belongsTo(models.Admin, {
-        foreignKey: {
-          name: "adminId",
-        },
-      })
     }
   }
   Auth.init(
