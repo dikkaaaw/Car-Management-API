@@ -14,18 +14,6 @@ module.exports = (sequelize, DataTypes) => {
           name: "userId",
         },
       })
-
-      User.belongsTo(models.Dealer, {
-        foreignKey: {
-          name: "dealerId",
-        },
-      })
-
-      User.hasMany(models.Car, {
-        foreignKey: {
-          name: "userId",
-        },
-      })
     }
   }
   User.init(
@@ -35,10 +23,9 @@ module.exports = (sequelize, DataTypes) => {
       address: DataTypes.STRING,
       password: DataTypes.STRING,
       role: {
-        type: DataTypes.STRING,
-        defaultValue: "Member",
+        type: DataTypes.ENUM(["superadmin", "admin", "member"]),
+        defaultValue: "member",
       },
-      dealerId: DataTypes.INTEGER,
     },
     {
       sequelize,

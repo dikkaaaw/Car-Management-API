@@ -22,8 +22,8 @@ module.exports = {
         type: Sequelize.STRING,
       },
       role: {
-        type: Sequelize.STRING,
-        defaultValue: "Member",
+        type: Sequelize.ENUM(["superadmin", "admin", "member"]),
+        defaultValue: "member",
       },
       dealerId: {
         type: Sequelize.INTEGER,
