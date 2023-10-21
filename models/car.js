@@ -43,6 +43,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.ENUM(["Available", "Not Available"]),
         defaultValue: "Available",
       },
+      imageUrl: DataTypes.STRING,
       createdBy: DataTypes.INTEGER,
       updatedBy: DataTypes.INTEGER,
       deletedBy: DataTypes.INTEGER,

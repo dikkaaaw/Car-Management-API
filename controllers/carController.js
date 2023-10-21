@@ -8,6 +8,7 @@ const createCar = async (req, res, next) => {
 
     const file = req.file
     let img
+
     if (file) {
       const split = file.originalname.split(".")
       const extension = split[split.length - 1]
@@ -24,16 +25,19 @@ const createCar = async (req, res, next) => {
       price,
       category,
       isAvailable,
+      imageUrl: img,
       createdBy: req.user.id,
       updatedBy: req.user.id,
-      imageUrl: img,
     })
+
+    const createdBy = await User.findByPk(req.user.id)
 
     res.status(200).json({
       status: "Success",
       message: "Data added successfully!",
       data: {
-        newCar,
+        ...newCar.toJSON(),
+        createBy: createdBy.User.name,
       },
     })
   } catch (err) {
@@ -152,13 +156,12 @@ const updateCar = async (req, res, next) => {
       img = uploadedImage.url
     }
 
-    await Car.update(
+    const updatedCar = await Car.update(
       {
         name,
         price,
         category,
         isAvailable,
-        updatedBy: req.user.id,
         imageUrl: img,
       },
       {
@@ -168,9 +171,15 @@ const updateCar = async (req, res, next) => {
       }
     )
 
+    const updateBy = await User.findByPk(req.user.id)
+
     res.status(200).json({
       status: "Success",
       message: "Car data updated successfully!",
+      data: {
+        ...updatedCar.toJSON(),
+        updateBy: updateBy.User.name,
+      },
     })
   } catch (err) {
     next(new ApiError(err.message, 400))
