@@ -13,11 +13,11 @@ router
     upload.single("image"),
     carController.createCar
   )
-  .get(authenticate, carController.findAllCars)
+  .get(carController.findAllCars)
 
 router
   .route("/:id")
-  .get(authenticate, carController.findCarById)
+  .get(carController.findCarById)
   .delete(
     checkRole("Superadmin", "Admin"),
     authenticate,
