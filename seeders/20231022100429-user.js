@@ -17,9 +17,17 @@ module.exports = {
     await queryInterface.bulkInsert("Users", [
       {
         name: "Dika",
-        address: "Yogyakarta",
         age: 21,
-        role: "superadmin",
+        address: "Yogyakarta",
+        role: "Superadmin",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: "Wicaksono",
+        age: 21,
+        address: "Yogyakarta",
+        role: "Superadmin",
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -33,7 +41,15 @@ module.exports = {
         {
           email: "superadmin@mail.com",
           password:
-            "$2a$10$Z0EetShRiIsqFXEzEiEHa.QYNED7GmNrbmg6DKs.98BUN4Y18CoEK",
+            "$2a$10$Z0EetShRiIsqFXEzEiEHa.QYNED7GmNrbmg6DKs.98BUN4Y18CoEK", //superadmin123
+          userId: users[0].id,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          email: "superadmin2@mail.com",
+          password:
+            "$2a$10$Z0EetShRiIsqFXEzEiEHa.QYNED7GmNrbmg6DKs.98BUN4Y18CoEK", //superadmin123
           userId: users[0].id,
           createdAt: new Date(),
           updatedAt: new Date(),
