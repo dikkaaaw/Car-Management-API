@@ -5,9 +5,15 @@ const ApiError = require("../utils/apiError")
 
 const register = async (req, res, next) => {
   try {
-    const { name, email, password, confirmPassword, age, address } =
-      req.body
-    let newUser
+    const {
+      name,
+      email,
+      password,
+      role,
+      confirmPassword,
+      age,
+      address,
+    } = req.body
 
     const user = await Auth.findOne({
       where: {
@@ -40,22 +46,12 @@ const register = async (req, res, next) => {
       saltRounds
     )
 
-    if (req.user) {
-      if (req.user.role == "Superadmin") {
-        newUser = await User.create({
-          name,
-          age,
-          address,
-          role: "Admin",
-        })
-      } else {
-        newUser = await User.create({
-          name,
-          age,
-          address,
-        })
-      }
-    }
+    const newUser = await User.create({
+      name,
+      address,
+      age,
+      role,
+    })
 
     await Auth.create({
       email,
