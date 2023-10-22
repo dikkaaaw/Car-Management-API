@@ -8,7 +8,7 @@ const upload = require("../middlewares/uploader")
 router
   .route("/")
   .post(
-    checkRole(["Superadmin", "Admin"]),
+    checkRole("Superadmin", "Admin"),
     authenticate,
     upload.single("image"),
     carController.createCar
@@ -19,12 +19,12 @@ router
   .route("/:id")
   .get(authenticate, carController.findCarById)
   .delete(
-    checkRole(["Superadmin", "Admin"]),
+    checkRole("Superadmin", "Admin"),
     authenticate,
     carController.deleteCar
   )
   .patch(
-    checkRole(["Superadmin", "Admin"]),
+    checkRole("Superadmin", "Admin"),
     authenticate,
     upload.single("image"),
     carController.updateCar

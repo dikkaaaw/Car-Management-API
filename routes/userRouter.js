@@ -10,26 +10,26 @@ router.get("/:id", authenticate, userController.findUserById)
 router.patch(
   "/admin/:id",
   authenticate,
-  checkRole(["Superadmin"]),
+  checkRole("Superadmin"),
   userController.updateUser
 )
 router.delete(
   "/admin/:id",
   authenticate,
-  checkRole(["Superadmin"]),
+  checkRole("Superadmin"),
   userController.deleteUser
 )
 
 router.patch(
   "/member/:id",
   authenticate,
-  checkRole(["Superadmin"]),
+  checkRole("Superadmin"),
   userController.updateUser
 )
 router.delete(
   "/member/:id",
   authenticate,
-  checkRole(["Superadmin"]),
+  checkRole("Superadmin"),
   userController.deleteUser
 )
 
