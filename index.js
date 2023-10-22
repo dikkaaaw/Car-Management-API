@@ -5,7 +5,6 @@ const cors = require("cors")
 
 const ApiError = require("./utils/apiError")
 const errorHandler = require("./controllers/errorController")
-
 const router = require("./routes")
 
 const app = express()
