@@ -9,7 +9,7 @@ git clone https://github.com/dikkaaaw/Car-Management-API.git
 ```
 2. Go to your directory
 ```bash
-cd 
+cd your_directory
 ```
 3. Install dependencies
 ```bash
@@ -48,7 +48,7 @@ npm run dev
 # Superadmin email & Password
 ```bash
 email: superadmin@mail.com
-password: superadmin@mail.com
+password: superadmin123
 ```
 
 # openAPI Documentation
