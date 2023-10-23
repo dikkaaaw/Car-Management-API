@@ -41,7 +41,7 @@ module.exports = {
         {
           email: "superadmin@mail.com",
           password:
-            "$2a$10$Z0EetShRiIsqFXEzEiEHa.QYNED7GmNrbmg6DKs.98BUN4Y18CoEK", //superadmin123
+            "$2a$10$Z0EetShRiIsqFXEzEiEHa.QYNED7GmNrbmg6DKs.98BUN4Y18CoEK",
           userId: users[0].id,
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -49,7 +49,7 @@ module.exports = {
         {
           email: "superadmin2@mail.com",
           password:
-            "$2a$10$Z0EetShRiIsqFXEzEiEHa.QYNED7GmNrbmg6DKs.98BUN4Y18CoEK", //superadmin123
+            "$2a$10$Z0EetShRiIsqFXEzEiEHa.QYNED7GmNrbmg6DKs.98BUN4Y18CoEK",
           userId: users[0].id,
           createdAt: new Date(),
           updatedAt: new Date(),
